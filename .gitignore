@@ -1,0 +1,38 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment files
+.env
+.env.*  # e.g., .env.development, .env.production
+
+# Build output
+dist/
+build/
+out/
+.next/         # for Next.js
+coverage/      # test coverage output
+
+# TypeScript
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# OS/Editor junk
+.DS_Store       # macOS
+Thumbs.db       # Windows
+.idea/          # JetBrains IDEs
+.vscode/        # VS Code settings (optional – see below)
+*.swp           # Vim swap files
+*.swo
+
+# Optional: Local project settings
+*.local         # e.g., .env.local, database.local.json
+*.bak           # backups
+*.orig          # merge conflict leftovers
