@@ -22,6 +22,7 @@ app.get("/", (req: Request, res: Response): void => {
 
 io.on("connection", (socket) => {
   console.log("New user connected");
+  socket.emit("hello", "Hello from the server!");
 });
 
 io.listen(4000);
