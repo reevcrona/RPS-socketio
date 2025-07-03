@@ -1,25 +1,25 @@
 import "./App.css";
-import { useState, useEffect } from "react";
-import { socket } from "./socket";
+import { useSocket } from "./hooks/useSocket";
+import { FaCircle } from "react-icons/fa";
+
 function App() {
-  const [isConnected, setIsConected] = useState(socket.connected);
-
-  useEffect(() => {
-    const onConnect = () => {
-      setIsConected(true);
-    };
-
-    socket.on("connect", onConnect);
-
-    return () => {
-      socket.off("connect", onConnect);
-    };
-  }, []);
+  const { isConnected } = useSocket();
 
   return (
-    <>
-      <h1>Am i connected? - {isConnected ? "Yes" : "No"}</h1>
-    </>
+    <div className="flex  items-center">
+      <FaCircle
+        className={`mr-6 text-5xl ${
+          isConnected ? "text-green-500" : "text-red-500"
+        }`}
+      />
+      <h1
+        className={`${
+          isConnected ? "text-green-500" : "text-red-500"
+        } text-4xl`}
+      >
+        {isConnected ? "Connected" : "No connection"}
+      </h1>
+    </div>
   );
 }
 
