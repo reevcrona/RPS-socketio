@@ -9,7 +9,7 @@ import {
   ServerToClientEvents,
 } from "@shared/socketEvents";
 
-import { db } from "../drizzle/db";
+import { db, checkDbConnection } from "../drizzle/db";
 import { users } from "../drizzle/schema";
 
 // 'app' handles routing and request processing
@@ -29,6 +29,9 @@ const io = new Server<
   },
 });
 const port = 3000;
+
+// Checks database connection
+checkDbConnection();
 
 app.get("/", async (req: Request, res: Response): Promise<void> => {
   try {
