@@ -9,6 +9,9 @@ import {
   ServerToClientEvents,
 } from "@shared/socketEvents";
 
+import { db } from "../drizzle/db";
+import { users } from "../drizzle/schema";
+
 // 'app' handles routing and request processing
 const app = express();
 
@@ -27,8 +30,18 @@ const io = new Server<
 });
 const port = 3000;
 
-app.get("/", (req: Request, res: Response): void => {
-  res.send("yooole");
+app.get("/", async (req: Request, res: Response): Promise<void> => {
+  try {
+    const myUsers = await db.select().from(users);
+
+    console.log(myUsers);
+
+    res.status(200).json(myUsers);
+  } catch (error) {
+    console.log("Failed to fetch users", error);
+
+    res.status(500).json({ message: "Error:failed to fech users" });
+  }
 });
 
 io.on("connection", (socket) => {
