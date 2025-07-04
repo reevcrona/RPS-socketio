@@ -2,6 +2,12 @@ import express from "express";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
 import { Request, Response } from "express";
+import {
+  ClientToServerEvents,
+  SocketData,
+  InterServerEvents,
+  ServerToClientEvents,
+} from "@shared/socketEvents";
 
 // 'app' handles routing and request processing
 const app = express();
