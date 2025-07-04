@@ -15,7 +15,12 @@ const app = express();
 // 'server' listens for incoming network requests and passes them to 'app'
 const server = createServer(app);
 
-const io = new Server(server, {
+const io = new Server<
+  ClientToServerEvents,
+  ServerToClientEvents,
+  InterServerEvents,
+  SocketData
+>(server, {
   cors: {
     origin: "http://localhost:5173",
   },
@@ -29,6 +34,14 @@ app.get("/", (req: Request, res: Response): void => {
 io.on("connection", (socket) => {
   console.log("New user connected");
   socket.emit("hello", "Hello from the server!");
+
+  socket.on("hello", (arg) => {
+    console.log(arg);
+  });
+
+  socket.on("message", (arg) => {
+    io.emit("message", arg);
+  });
 });
 
 io.listen(4000);
