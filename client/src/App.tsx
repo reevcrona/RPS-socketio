@@ -13,6 +13,7 @@ function App() {
 
   const [inputValue, setInputValue] = useState<string>("");
 
+  const [showLightbox, setShowLightbox] = useState<boolean>(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
@@ -56,15 +57,17 @@ function App() {
         <MessageList />
       </div>
 
-      <LobbyContainer>
+      <LobbyContainer setShowLightbox={setShowLightbox}>
         <LobbyTile />
         <LobbyTile />
         <LobbyTile />
       </LobbyContainer>
 
-      <LightBox>
-        <LobbyOptions />
-      </LightBox>
+      {showLightbox && (
+        <LightBox>
+          <LobbyOptions setShowLightbox={setShowLightbox} />
+        </LightBox>
+      )}
     </div>
   );
 }

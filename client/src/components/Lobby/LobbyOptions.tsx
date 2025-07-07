@@ -1,16 +1,17 @@
 import { useState } from "react";
 import { CiGlobe, CiLock } from "react-icons/ci";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
-function LobbyOptions() {
+type LobbyOptionsProps = {
+  setShowLightbox: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+function LobbyOptions({ setShowLightbox }: LobbyOptionsProps) {
   const [lobbyData, setLobbyData] = useState({
     name: "",
-    maxPlayers: 4,
+    maxPlayers: 2,
     isPrivate: false,
     password: "",
-    gameMode: "casual",
-    timeLimit: 30,
-    allowSpectators: true,
-    autoStart: false,
   });
 
   const handleInputChange = (
@@ -23,14 +24,44 @@ function LobbyOptions() {
     }));
   };
 
+  const handleCreateLobby = () => {};
+
+  const handleLightboxExit = (): void => {
+    setLobbyData({
+      name: "",
+      maxPlayers: 2,
+      isPrivate: false,
+      password: "",
+    });
+    setShowLightbox(false);
+  };
+
   return (
-    <div className="bg-white min-h-[200px] p-2 w-full max-w-[600px] flex flex-col justify-center items-center">
-      <h2>Create New Lobby</h2>
-      <form>
-        <div className="flex flex-col">
-          <label htmlFor="lobbyName">LobbyName</label>
-          <input type="text" id="lobbyName" name="lobbyName" />
+    <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-6 rounded-t-2xl">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold">Create New Lobby</h2>
+          <IoIosCloseCircleOutline
+            onClick={handleLightboxExit}
+            className="text-3xl transition cursor-pointer duration-200 ease-in-out hover:scale-125"
+          />
         </div>
+      </div>
+
+      <div className="p-6 space-y-6">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Lobby Name
+          </label>
+          <input
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+            type="text"
+            value={lobbyData.name}
+            onChange={(e) => handleInputChange("name", e.target.value)}
+            placeholder="Enter lobby name..."
+          />
+        </div>
+
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-3">
             Privacy Setting
@@ -60,11 +91,40 @@ function LobbyOptions() {
             </label>
           </div>
         </div>
-        <div className="flex w-full justify-evenly">
-          <button className="bg-gray-600 p-2">Cancel</button>
-          <button className="bg-green-500 p-2">Create Lobby</button>
-        </div>
-      </form>
+
+        {lobbyData.isPrivate && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Password
+            </label>
+            <input
+              type="password"
+              value={lobbyData.password}
+              onChange={(e) => handleInputChange("password", e.target.value)}
+              placeholder="Enter password..."
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+            />
+          </div>
+        )}
+      </div>
+
+      <div className="bg-gray-50 px-6 py-4 rounded-b-2xl flex gap-3">
+        <button
+          type="button"
+          onClick={handleLightboxExit}
+          className="flex-1 px-4 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg font-medium transition-colors"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          onClick={handleCreateLobby}
+          disabled={!lobbyData.name.trim()}
+          className="flex-1 px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:from-gray-400 disabled:to-gray-400 text-white rounded-lg font-medium transition-all disabled:cursor-not-allowed"
+        >
+          Create Lobby
+        </button>
+      </div>
     </div>
   );
 }
