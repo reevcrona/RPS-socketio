@@ -5,6 +5,7 @@ import { FaCircle } from "react-icons/fa";
 import MessageList from "./components/MessageList";
 import LobbyContainer from "./components/LobbyContainer";
 import LobbyTile from "./components/LobbyTitle";
+import LightBox from "./components/Lightbox";
 function App() {
   const { isConnected, message, sayHelloToServer, sendMessageToServer } =
     useSocket();

@@ -11,7 +11,7 @@ function LobbyTile() {
       <p>Connected: Player123</p>
       <div className="flex items-center justify-center ">
         <button className="bg-green-500 cursor-pointer mt-3 w-full max-w-[150px] rounded-lg p-1 text-lg">
-          Connect
+          Join Lobby
         </button>
       </div>
     </div>
