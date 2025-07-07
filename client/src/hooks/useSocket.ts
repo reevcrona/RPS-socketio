@@ -17,6 +17,10 @@ const useSocket = () => {
     socket.emit("message", userMessage);
   };
 
+  const createLobby = (formData: any) => {
+    socket.emit("lobbyCreation", formData);
+  };
+
   useEffect(() => {
     const onConnect = () => {
       setIsConected(true);
@@ -55,6 +59,7 @@ const useSocket = () => {
     message,
     sayHelloToServer,
     sendMessageToServer,
+    createLobby,
   };
 };
 

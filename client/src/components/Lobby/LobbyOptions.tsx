@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { CiGlobe, CiLock } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import { useSocket } from "../../hooks/useSocket";
 
 type LobbyOptionsProps = {
   setShowLightbox: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 function LobbyOptions({ setShowLightbox }: LobbyOptionsProps) {
+  const { createLobby } = useSocket();
+
   const [lobbyData, setLobbyData] = useState({
     name: "",
     maxPlayers: 2,
@@ -22,6 +25,7 @@ function LobbyOptions({ setShowLightbox }: LobbyOptionsProps) {
       ...prev,
       [field]: value,
     }));
+    console.log(lobbyData);
   };
 
   const handleCreateLobby = () => {};
@@ -48,7 +52,7 @@ function LobbyOptions({ setShowLightbox }: LobbyOptionsProps) {
         </div>
       </div>
 
-      <div className="p-6 space-y-6">
+      <form className="p-6 space-y-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Lobby Name
@@ -106,7 +110,7 @@ function LobbyOptions({ setShowLightbox }: LobbyOptionsProps) {
             />
           </div>
         )}
-      </div>
+      </form>
 
       <div className="bg-gray-50 px-6 py-4 rounded-b-2xl flex gap-3">
         <button
@@ -118,7 +122,7 @@ function LobbyOptions({ setShowLightbox }: LobbyOptionsProps) {
         </button>
         <button
           type="button"
-          onClick={handleCreateLobby}
+          onClick={() => createLobby(lobbyData)}
           disabled={!lobbyData.name.trim()}
           className="flex-1 px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:from-gray-400 disabled:to-gray-400 text-white rounded-lg font-medium transition-all disabled:cursor-not-allowed"
         >

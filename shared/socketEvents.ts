@@ -1,11 +1,13 @@
 export interface ServerToClientEvents {
   hello: (message: string) => void;
   message: (message: string) => void;
+  lobbyCreation: (payload: string) => void;
 }
 
 export interface ClientToServerEvents {
   hello: (message: string) => void;
   message: (message: string) => void;
+  lobbyCreation: (payload: LobbyData) => void;
 }
 
 export interface InterServerEvents {
@@ -15,4 +17,11 @@ export interface InterServerEvents {
 export interface SocketData {
   name: string;
   age: number;
+}
+
+export interface LobbyData {
+  name: string;
+  maxPlayers: number;
+  isPrivate: boolean;
+  password?: string;
 }

@@ -13,6 +13,7 @@ import {
 import { db, checkDbConnection } from "../drizzle/db";
 import { users } from "../drizzle/schema";
 import { messageHandler } from "./eventHandlers/messageHandlers";
+import { lobbyHandler } from "./eventHandlers/lobbyHandlers";
 import messageRoutes from "./routes/messageRoutes";
 
 // 'app' handles routing and request processing
@@ -56,6 +57,7 @@ app.get("/", async (req: Request, res: Response): Promise<void> => {
 
 const onConnection = (socket: Socket) => {
   messageHandler(io, socket);
+  lobbyHandler(io, socket);
 };
 
 io.on("connection", onConnection);

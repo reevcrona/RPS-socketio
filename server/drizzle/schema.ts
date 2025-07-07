@@ -5,6 +5,7 @@ import {
   timestamp,
   uuid,
   integer,
+  boolean,
 } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
@@ -24,5 +25,7 @@ export const lobbies = pgTable("lobbies", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
   maxPlayers: integer().notNull(),
+  isPrivate: boolean().notNull(),
+  password: text("password"),
   createAt: timestamp("created_at").defaultNow().notNull(),
 });
