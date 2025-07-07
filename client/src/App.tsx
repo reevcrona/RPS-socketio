@@ -3,9 +3,10 @@ import "./App.css";
 import { useSocket } from "./hooks/useSocket";
 import { FaCircle } from "react-icons/fa";
 import MessageList from "./components/MessageList";
-import LobbyContainer from "./components/LobbyContainer";
-import LobbyTile from "./components/LobbyTitle";
+import LobbyContainer from "./components/Lobby/LobbyContainer";
+import LobbyTile from "./components/Lobby/LobbyTitle";
 import LightBox from "./components/Lightbox";
+import LobbyOptions from "./components/Lobby/LobbyOptions";
 function App() {
   const { isConnected, message, sayHelloToServer, sendMessageToServer } =
     useSocket();
@@ -60,6 +61,10 @@ function App() {
         <LobbyTile />
         <LobbyTile />
       </LobbyContainer>
+
+      <LightBox>
+        <LobbyOptions />
+      </LightBox>
     </div>
   );
 }
