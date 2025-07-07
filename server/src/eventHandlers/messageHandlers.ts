@@ -1,6 +1,6 @@
 import { Socket, Server } from "socket.io";
-import { db } from "../drizzle/db";
-import { messages } from "../drizzle/schema";
+import { db } from "../../drizzle/db";
+import { messages } from "../../drizzle/schema";
 
 const messageHandler = (io: Server, socket: Socket) => {
   const saveMessage = async (message: string): Promise<void> => {

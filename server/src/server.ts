@@ -11,7 +11,8 @@ import {
 
 import { db, checkDbConnection } from "../drizzle/db";
 import { users } from "../drizzle/schema";
-import { messageHandler } from "./messageHandlers";
+import { messageHandler } from "./eventHandlers/messageHandlers";
+import messageRoutes from "./routes/messageRoutes";
 
 // 'app' handles routing and request processing
 const app = express();
@@ -33,7 +34,7 @@ const port = 3000;
 
 // Checks database connection
 checkDbConnection();
-
+app.use("/messages", messageRoutes);
 app.get("/", async (req: Request, res: Response): Promise<void> => {
   try {
     const myUsers = await db.select().from(users);
