@@ -15,6 +15,13 @@
       "when": 1751886661104,
       "tag": "0001_tiny_meteorite",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1751896954477,
+      "tag": "0002_useful_sir_ram",
+      "breakpoints": true
     }
   ]
 }
