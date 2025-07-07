@@ -1,6 +1,6 @@
 import express from "express";
 import { createServer } from "node:http";
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
 import { Request, Response } from "express";
 import {
   ClientToServerEvents,
@@ -11,6 +11,7 @@ import {
 
 import { db, checkDbConnection } from "../drizzle/db";
 import { users } from "../drizzle/schema";
+import { messageHandler } from "./messageHandlers";
 
 // 'app' handles routing and request processing
 const app = express();
@@ -47,18 +48,11 @@ app.get("/", async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-io.on("connection", (socket) => {
-  console.log("New user connected");
-  socket.emit("hello", "Hello from the server!");
+const onConnection = (socket: Socket) => {
+  messageHandler(io, socket);
+};
 
-  socket.on("hello", (arg) => {
-    console.log(arg);
-  });
-
-  socket.on("message", (arg) => {
-    io.emit("message", arg);
-  });
-});
+io.on("connection", onConnection);
 
 io.listen(4000);
 
