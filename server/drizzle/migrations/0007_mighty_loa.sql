@@ -1,0 +1,1 @@
+ALTER TABLE "lobbies" ALTER COLUMN "players_in_lobby" DROP NOT NULL;

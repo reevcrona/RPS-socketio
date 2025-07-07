@@ -15,6 +15,7 @@ import { users } from "../drizzle/schema";
 import { messageHandler } from "./eventHandlers/messageHandlers";
 import { lobbyHandler } from "./eventHandlers/lobbyHandlers";
 import messageRoutes from "./routes/messageRoutes";
+import lobbyRoutes from "./routes/lobbyRoutes";
 
 // 'app' handles routing and request processing
 const app = express();
@@ -41,6 +42,7 @@ app.use(
 // Checks database connection
 checkDbConnection();
 app.use("/messages", messageRoutes);
+app.use("/lobby", lobbyRoutes);
 app.get("/", async (req: Request, res: Response): Promise<void> => {
   try {
     const myUsers = await db.select().from(users);

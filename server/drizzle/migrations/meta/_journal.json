@@ -43,6 +43,20 @@
       "when": 1751920612078,
       "tag": "0005_brief_terrax",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1751923079486,
+      "tag": "0006_charming_baron_strucker",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1751923540852,
+      "tag": "0007_mighty_loa",
+      "breakpoints": true
     }
   ]
 }

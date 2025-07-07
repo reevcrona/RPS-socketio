@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import type { MessageData } from "../types/messageType";
 import { v4 as uuidv4 } from "uuid";
+import type { FilledLobbyData } from "@shared/socketEvents";
 
 const useSocket = () => {
   const queryClient = useQueryClient();
@@ -38,6 +39,17 @@ const useSocket = () => {
       );
     };
 
+    const onLobbyCreation = (payload: FilledLobbyData) => {
+      queryClient.setQueryData<FilledLobbyData[]>(
+        ["lobbies"],
+        (oldLobbies = []) => {
+          const exists = oldLobbies.some((lobby) => lobby.id === payload.id);
+          if (exists) return oldLobbies;
+          return [...oldLobbies, payload];
+        }
+      );
+    };
+
     const onHello = (arg: string) => {
       console.log("Recived this from server", arg);
       setMessage(arg);
@@ -46,11 +58,13 @@ const useSocket = () => {
     socket.on("connect", onConnect);
     socket.on("hello", onHello);
     socket.on("message", onMessage);
+    socket.on("lobbyCreation", onLobbyCreation);
 
     return () => {
       socket.off("connect", onConnect);
       socket.off("hello", onHello);
       socket.off("message", onMessage);
+      socket.off("lobbyCreation", onLobbyCreation);
     };
   }, [queryClient]);
 

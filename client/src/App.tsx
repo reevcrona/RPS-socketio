@@ -4,9 +4,9 @@ import { useSocket } from "./hooks/useSocket";
 import { FaCircle } from "react-icons/fa";
 import MessageList from "./components/MessageList";
 import LobbyContainer from "./components/Lobby/LobbyContainer";
-import LobbyTile from "./components/Lobby/LobbyTitle";
 import LightBox from "./components/Lightbox";
 import LobbyOptions from "./components/Lobby/LobbyOptions";
+import LobbyList from "./components/Lobby/LobbyList";
 function App() {
   const { isConnected, message, sayHelloToServer, sendMessageToServer } =
     useSocket();
@@ -58,9 +58,7 @@ function App() {
       </div>
 
       <LobbyContainer setShowLightbox={setShowLightbox}>
-        <LobbyTile />
-        <LobbyTile />
-        <LobbyTile />
+        <LobbyList />
       </LobbyContainer>
 
       {showLightbox && (
