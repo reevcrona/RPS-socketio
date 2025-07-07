@@ -3,6 +3,8 @@ import "./App.css";
 import { useSocket } from "./hooks/useSocket";
 import { FaCircle } from "react-icons/fa";
 import MessageList from "./components/MessageList";
+import LobbyContainer from "./components/LobbyContainer";
+import LobbyTile from "./components/LobbyTitle";
 function App() {
   const { isConnected, message, sayHelloToServer, sendMessageToServer } =
     useSocket();
@@ -14,7 +16,7 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col  items-center">
+    <div className="flex flex-col  items-center w-full">
       <div onClick={sayHelloToServer} className="flex items-center mb-7">
         <FaCircle
           className={`mr-6 text-5xl ${
@@ -51,6 +53,12 @@ function App() {
       <div>
         <MessageList />
       </div>
+
+      <LobbyContainer>
+        <LobbyTile />
+        <LobbyTile />
+        <LobbyTile />
+      </LobbyContainer>
     </div>
   );
 }
