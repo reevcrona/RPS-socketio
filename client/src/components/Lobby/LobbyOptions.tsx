@@ -12,7 +12,6 @@ function LobbyOptions({ setShowLightbox }: LobbyOptionsProps) {
 
   const [lobbyData, setLobbyData] = useState({
     name: "",
-    maxPlayers: 2,
     isPrivate: false,
     password: "",
   });
@@ -33,7 +32,6 @@ function LobbyOptions({ setShowLightbox }: LobbyOptionsProps) {
   const handleLightboxExit = (): void => {
     setLobbyData({
       name: "",
-      maxPlayers: 2,
       isPrivate: false,
       password: "",
     });

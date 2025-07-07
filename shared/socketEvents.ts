@@ -21,7 +21,6 @@ export interface SocketData {
 
 export interface LobbyData {
   name: string;
-  maxPlayers: number;
   isPrivate: boolean;
   password?: string;
 }

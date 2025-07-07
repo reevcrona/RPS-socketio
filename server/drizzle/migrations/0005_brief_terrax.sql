@@ -1,0 +1,1 @@
+ALTER TABLE "lobbies" RENAME COLUMN "playersInLobby" TO "players_in_lobby";

@@ -1,0 +1,1 @@
+ALTER TABLE "lobbies" RENAME COLUMN "maxPlayers" TO "playersInLobby";

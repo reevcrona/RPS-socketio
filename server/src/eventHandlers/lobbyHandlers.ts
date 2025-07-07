@@ -6,6 +6,7 @@ const lobbyHandler = (io: Server, socket: Socket) => {
   const createLobby = async (payload: LobbyData) => {
     try {
       await db.insert(lobbies).values(payload);
+      console.log("New lobby successfully created!");
     } catch (error) {
       console.error("Failed to create lobby", error);
     }
