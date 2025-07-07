@@ -2,15 +2,10 @@ import { useState } from "react";
 import "./App.css";
 import { useSocket } from "./hooks/useSocket";
 import { FaCircle } from "react-icons/fa";
-
+import MessageList from "./components/MessageList";
 function App() {
-  const {
-    isConnected,
-    message,
-    sayHelloToServer,
-    globalMessage,
-    sendMessageToServer,
-  } = useSocket();
+  const { isConnected, message, sayHelloToServer, sendMessageToServer } =
+    useSocket();
 
   const [inputValue, setInputValue] = useState<string>("");
 
@@ -54,10 +49,7 @@ function App() {
       </button>
 
       <div>
-        <h3>Messages:</h3>
-        {globalMessage.map((message) => {
-          return <p>{message}</p>;
-        })}
+        <MessageList />
       </div>
     </div>
   );

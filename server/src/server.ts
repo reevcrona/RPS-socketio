@@ -2,6 +2,7 @@ import express from "express";
 import { createServer } from "node:http";
 import { Server, Socket } from "socket.io";
 import { Request, Response } from "express";
+import cors from "cors";
 import {
   ClientToServerEvents,
   SocketData,
@@ -31,7 +32,11 @@ const io = new Server<
   },
 });
 const port = 3000;
-
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 // Checks database connection
 checkDbConnection();
 app.use("/messages", messageRoutes);

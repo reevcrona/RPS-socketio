@@ -1,10 +1,13 @@
 import { socket } from "../socket";
 import { useState, useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import type { MessageData } from "../types/messageType";
+import { v4 as uuidv4 } from "uuid";
 
 const useSocket = () => {
+  const queryClient = useQueryClient();
   const [isConnected, setIsConected] = useState(socket.connected);
   const [message, setMessage] = useState<string>("");
-  const [globalMessage, setGlobalMessage] = useState<string[]>([]);
 
   const sayHelloToServer = () => {
     socket.emit("hello", "Hello from client");
@@ -20,7 +23,15 @@ const useSocket = () => {
     };
 
     const onMessage = (arg: string) => {
-      setGlobalMessage((prevState) => [...prevState, arg]);
+      const newMessage: MessageData = {
+        id: uuidv4(),
+        content: arg,
+        createAt: new Date().toISOString(),
+      };
+      queryClient.setQueryData<MessageData[]>(
+        ["messages"],
+        (oldMessages = []) => [...oldMessages, newMessage]
+      );
     };
 
     const onHello = (arg: string) => {
@@ -37,13 +48,12 @@ const useSocket = () => {
       socket.off("hello", onHello);
       socket.off("message", onMessage);
     };
-  }, []);
+  }, [queryClient]);
 
   return {
     isConnected,
     message,
     sayHelloToServer,
-    globalMessage,
     sendMessageToServer,
   };
 };
