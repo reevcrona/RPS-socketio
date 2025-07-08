@@ -7,7 +7,10 @@ export interface ServerToClientEvents {
 export interface ClientToServerEvents {
   hello: (message: string) => void;
   message: (message: string) => void;
-  lobbyCreation: (payload: LobbyData) => void;
+  lobbyCreation: (
+    payload: LobbyData,
+    callback?: (response: { status: "ok" | "error"; message?: string }) => void
+  ) => void;
 }
 
 export interface InterServerEvents {

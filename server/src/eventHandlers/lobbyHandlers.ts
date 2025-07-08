@@ -20,12 +20,35 @@ const lobbyHandler = (io: Server, socket: Socket) => {
     }
   };
 
-  const emitLobby = async (payload: LobbyData) => {
+  const respond = (
+    callback:
+      | ((res: { status: "ok" | "error"; message?: string }) => void)
+      | undefined,
+    response: { status: "ok" | "error"; message?: string }
+  ) => {
+    if (callback) callback(response);
+  };
+
+  const emitLobby = async (
+    payload: LobbyData,
+    callback?: (response: { status: "ok" | "error"; message?: string }) => void
+  ) => {
     try {
       const newLobby = await createLobby(payload);
+      if (!newLobby) {
+        return respond(callback, {
+          status: "error",
+          message: "Failed to create lobby",
+        });
+      }
       io.emit("lobbyCreation", newLobby);
+      return respond(callback, { status: "ok" });
     } catch (error) {
       console.error("Error emitting new lobby event", error);
+      return respond(callback, {
+        status: "error",
+        message: "Internal server error",
+      });
     }
   };
 

@@ -19,7 +19,13 @@ const useSocket = () => {
   };
 
   const createLobby = (formData: any) => {
-    socket.emit("lobbyCreation", formData);
+    socket.emit("lobbyCreation", formData, (cb) => {
+      if (cb.status === "ok") {
+        console.log("Lobby created");
+      } else {
+        console.error("Failed to create lobby:", cb.message);
+      }
+    });
   };
 
   useEffect(() => {
