@@ -18,13 +18,27 @@ const useSocket = () => {
     socket.emit("message", userMessage);
   };
 
-  const createLobby = (formData: any) => {
-    socket.emit("lobbyCreation", formData, (cb) => {
-      if (cb.status === "ok") {
-        console.log("Lobby created");
-      } else {
-        console.error("Failed to create lobby:", cb.message);
+  const createLobby = (
+    lobbyData: any
+  ): Promise<{ status: "ok" | "error"; message?: string }> => {
+    return new Promise((resolve, reject) => {
+      if (!socket) {
+        // Reject early if socket is not available
+        reject(new Error("Socket not connected"));
+        return;
       }
+
+      socket.emit(
+        "lobbyCreation",
+        lobbyData,
+        (response: { status: "ok" | "error"; message?: string }) => {
+          if (response.status === "ok") {
+            resolve(response);
+          } else {
+            reject(new Error(response.message || "Unknown error"));
+          }
+        }
+      );
     });
   };
 

@@ -27,7 +27,14 @@ function LobbyOptions({ setShowLightbox }: LobbyOptionsProps) {
     console.log(lobbyData);
   };
 
-  const handleCreateLobby = () => {};
+  const handleCreateLobby = async () => {
+    try {
+      await createLobby(lobbyData);
+      setShowLightbox(false);
+    } catch (error) {
+      console.error("Lobby creation failed:", error);
+    }
+  };
 
   const handleLightboxExit = (): void => {
     setLobbyData({
@@ -120,7 +127,7 @@ function LobbyOptions({ setShowLightbox }: LobbyOptionsProps) {
         </button>
         <button
           type="button"
-          onClick={() => createLobby(lobbyData)}
+          onClick={handleCreateLobby}
           disabled={!lobbyData.name.trim()}
           className="flex-1 px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:from-gray-400 disabled:to-gray-400 text-white rounded-lg font-medium transition-all disabled:cursor-not-allowed"
         >
