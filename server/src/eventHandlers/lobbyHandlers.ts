@@ -11,6 +11,7 @@ const lobbyHandler = (io: Server, socket: Socket) => {
           name: payload.name,
           isPrivate: payload.isPrivate,
           password: payload.password || null,
+          playersInLobby: 0,
         })
         .returning();
       console.log("New lobby successfully created!");
