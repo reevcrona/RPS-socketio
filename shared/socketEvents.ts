@@ -10,6 +10,10 @@ export interface ClientToServerEvents {
     payload: LobbyData,
     callback?: (response: { status: "ok" | "error"; message?: string }) => void
   ) => void;
+  joinLobby: (
+    lobbyId: string,
+    callback?: (response: { status: "ok" | "error"; message?: string }) => void
+  ) => void;
 }
 
 export interface InterServerEvents {

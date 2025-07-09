@@ -26,6 +26,7 @@ function LobbyList() {
         data.map((lobby) => (
           <LobbyTile
             key={lobby.id}
+            id={lobby.id}
             name={lobby.name}
             playerInLobby={lobby.playersInLobby}
             status="Active"

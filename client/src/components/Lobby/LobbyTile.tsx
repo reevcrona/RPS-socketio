@@ -1,10 +1,21 @@
 type LobbyTileProps = {
   name: string;
+  id: string;
   playerInLobby: number;
   status: "Active" | "Full";
 };
+import { useSocketEmitters } from "../../hooks/useSocketEmitters";
+function LobbyTile({ name, playerInLobby, status, id }: LobbyTileProps) {
+  const { joinLobby } = useSocketEmitters();
 
-function LobbyTile({ name, playerInLobby, status }: LobbyTileProps) {
+  const handleJoinLobby = async () => {
+    try {
+      await joinLobby(id);
+    } catch (error) {
+      console.error("Failed to join lobby", error);
+    }
+  };
+
   return (
     <div className="bg-white text-black w-full justify-between max-w-[300px] min-h-[120px] flex flex-col p-4">
       <h2 className="font-bold text-xl">{name}</h2>
@@ -16,7 +27,10 @@ function LobbyTile({ name, playerInLobby, status }: LobbyTileProps) {
       </div>
       <p>Connected: Player123</p>
       <div className="flex items-center justify-center ">
-        <button className="bg-green-500 cursor-pointer mt-3 w-full max-w-[150px] rounded-lg p-1 text-lg">
+        <button
+          onClick={handleJoinLobby}
+          className="bg-green-500 cursor-pointer mt-3 w-full max-w-[150px] rounded-lg p-1 text-lg"
+        >
           Join Lobby
         </button>
       </div>

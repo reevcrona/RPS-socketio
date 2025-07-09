@@ -2,6 +2,7 @@ import { Socket, Server } from "socket.io";
 import { LobbyData } from "@shared/socketEvents";
 import { lobbies } from "../../drizzle/schema";
 import { db } from "../../drizzle/db";
+import { lobbyExists } from "../utils/checkLobbyExists";
 const lobbyHandler = (io: Server, socket: Socket) => {
   const createLobby = async (payload: LobbyData) => {
     try {
@@ -55,6 +56,32 @@ const lobbyHandler = (io: Server, socket: Socket) => {
     }
   };
 
+  const joinLobby = async (
+    lobbyId: string,
+    callback?: (response: { status: "ok" | "error"; message?: string }) => void
+  ) => {
+    try {
+      const exists = await lobbyExists(lobbyId);
+
+      if (!exists) {
+        return respond(callback, {
+          status: "error",
+          message: "Lobby did not exist.",
+        });
+      }
+      socket.join(lobbyId);
+      io.to(lobbyId).emit("userJoined", { socketId: socket.id });
+      return respond(callback, { status: "ok" });
+    } catch (error) {
+      console.error("Error joining lobby.", error);
+      return respond(callback, {
+        status: "error",
+        message: "Internal server error",
+      });
+    }
+  };
+
+  socket.on("joinLobby", joinLobby);
   socket.on("lobbyCreation", emitLobby);
 };
 
