@@ -1,3 +1,5 @@
+import { useSocketEmitters } from "../hooks/useSocketEmitters";
+
 type UserNameComponentProps = {
   setShowUsernameLightbox: React.Dispatch<React.SetStateAction<boolean>>;
   setUserName: React.Dispatch<React.SetStateAction<string>>;
@@ -14,6 +16,17 @@ function UserNameComponent({
   setUserName,
   userName,
 }: UserNameComponentProps) {
+  const { sendUserData } = useSocketEmitters();
+  const handleSetUsername = async () => {
+    try {
+      const response = await sendUserData(userName);
+      if (response.message) console.log(response.message);
+      setShowUsernameLightbox(false);
+    } catch (error) {
+      console.error("Failed to update socket data", error);
+    }
+  };
+
   return (
     <>
       <form className="bg-white flex p-2 min-h-[200px] justify-evenly flex-col w-full max-w-[300px]">
@@ -29,8 +42,9 @@ function UserNameComponent({
           onChange={(e) => handleChange(e, setUserName)}
         />
         <button
+          type="button"
           className="bg-black text-white"
-          onClick={() => setShowUsernameLightbox(false)}
+          onClick={handleSetUsername}
         >
           Accept
         </button>

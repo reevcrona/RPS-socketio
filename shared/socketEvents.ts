@@ -14,6 +14,10 @@ export interface ClientToServerEvents {
     lobbyId: string,
     callback?: (response: { status: "ok" | "error"; message?: string }) => void
   ) => void;
+  setUserData: (
+    name: string,
+    callback?: (response: { status: "ok" | "error"; message?: string }) => void
+  ) => void;
 }
 
 export interface InterServerEvents {

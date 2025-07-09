@@ -35,8 +35,14 @@ export const registerSocketListeners = (
     );
   };
 
-  const onLobbyJoin = ({ socketId }: { socketId: string }) => {
-    console.log(`User ${socketId} joined the room`);
+  const onLobbyJoin = ({
+    socketId,
+    userName,
+  }: {
+    socketId: string;
+    userName: string;
+  }) => {
+    console.log(`User ID ${socketId} & UserName ${userName} joined the room`);
   };
 
   socket.on("connect", onConnect);

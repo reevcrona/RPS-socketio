@@ -1,5 +1,11 @@
+import LobbyRoom from "../components/Lobby/LobbyRoom";
+
 function Lobby() {
-  return <></>;
+  return (
+    <>
+      <LobbyRoom />
+    </>
+  );
 }
 
 export default Lobby;

@@ -50,9 +50,32 @@ export const useSocketEmitters = () => {
     });
   };
 
+  const sendUserData = (
+    userName: string
+  ): Promise<{ status: "ok" | "error"; message?: string }> => {
+    return new Promise((resolve, reject) => {
+      if (!socket) {
+        reject(new Error("Socket not connected"));
+        return;
+      }
+      socket.emit(
+        "setUserData",
+        userName,
+        (response: { status: "ok" | "error"; message?: string }) => {
+          if (response.status === "ok") {
+            resolve(response);
+          } else {
+            reject(new Error(response.message || "Unknown error"));
+          }
+        }
+      );
+    });
+  };
+
   return {
     sendMessageToServer,
     createLobby,
     joinLobby,
+    sendUserData,
   };
 };

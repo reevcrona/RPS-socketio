@@ -14,6 +14,7 @@ import { db, checkDbConnection } from "../drizzle/db";
 import { users } from "../drizzle/schema";
 import { messageHandler } from "./eventHandlers/messageHandlers";
 import { lobbyHandler } from "./eventHandlers/lobbyHandlers";
+import { userDataHandler } from "./eventHandlers/userDataHandlers";
 import messageRoutes from "./routes/messageRoutes";
 import lobbyRoutes from "./routes/lobbyRoutes";
 
@@ -60,6 +61,7 @@ app.get("/", async (req: Request, res: Response): Promise<void> => {
 const onConnection = (socket: Socket) => {
   messageHandler(io, socket);
   lobbyHandler(io, socket);
+  userDataHandler(io, socket);
 };
 
 io.on("connection", onConnection);

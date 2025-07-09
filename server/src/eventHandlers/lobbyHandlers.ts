@@ -70,7 +70,10 @@ const lobbyHandler = (io: Server, socket: Socket) => {
         });
       }
       socket.join(lobbyId);
-      io.to(lobbyId).emit("userJoined", { socketId: socket.id });
+      io.to(lobbyId).emit("userJoined", {
+        socketId: socket.id,
+        userName: socket.data.name,
+      });
       return respond(callback, { status: "ok" });
     } catch (error) {
       console.error("Error joining lobby.", error);
