@@ -3,10 +3,12 @@ import { Socket } from "socket.io-client";
 import type { MessageData } from "../types/messageType";
 import type { FilledLobbyData } from "@shared/socketEvents";
 import { v4 as uuidv4 } from "uuid";
+import type { User } from "../types/userType";
 export const registerSocketListeners = (
   socket: Socket,
   queryClient: QueryClient,
-  setIsConected: (val: boolean) => void
+  setIsConected: (val: boolean) => void,
+  setUsers: (users: User[]) => void
 ) => {
   const onConnect = () => {
     setIsConected(true);
@@ -37,6 +39,7 @@ export const registerSocketListeners = (
 
   const onLobbyJoin = (users: { id: string; username: string }[]) => {
     const allUserNames = users.map((user) => user.username);
+    setUsers(users);
     console.log(`Users in this room ${allUserNames}`);
   };
 
