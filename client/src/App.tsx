@@ -14,12 +14,11 @@ function App() {
 
   const [inputValue, setInputValue] = useState<string>("");
   const [isConnected, setIsConected] = useState(socket.connected);
-  const [message, setMessage] = useState<string>("");
   const [showLightbox, setShowLightbox] = useState<boolean>(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
-  useSocketListeners(setIsConected, setMessage);
+  useSocketListeners(setIsConected);
   return (
     <div className="flex flex-col  items-center w-full">
       <div className="flex items-center mb-7">
@@ -36,10 +35,6 @@ function App() {
           {isConnected ? "Connected" : "No connection"}
         </h1>
       </div>
-
-      <h2 className="ml-3">
-        Message from the backend - <span className="font-bold">{message}</span>
-      </h2>
 
       <input
         className="bg-black text-white"

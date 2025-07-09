@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from "uuid";
 export const registerSocketListeners = (
   socket: Socket,
   queryClient: QueryClient,
-  setMessage: (msg: string) => void,
   setIsConected: (val: boolean) => void
 ) => {
   const onConnect = () => {
