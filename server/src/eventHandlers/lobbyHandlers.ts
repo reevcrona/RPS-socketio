@@ -43,6 +43,8 @@ const lobbyHandler = (io: Server, socket: Socket) => {
         });
       }
       io.emit("lobbyCreation", newLobby);
+      socket.join(newLobby.id);
+      io.to(newLobby.id).emit("userJoined", { socketId: socket.id });
       return respond(callback, { status: "ok" });
     } catch (error) {
       console.error("Error emitting new lobby event", error);

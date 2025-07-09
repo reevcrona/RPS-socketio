@@ -23,7 +23,6 @@ const useSocket = () => {
   ): Promise<{ status: "ok" | "error"; message?: string }> => {
     return new Promise((resolve, reject) => {
       if (!socket) {
-        // Reject early if socket is not available
         reject(new Error("Socket not connected"));
         return;
       }
@@ -70,6 +69,10 @@ const useSocket = () => {
       );
     };
 
+    const onLobbyJoin = ({ socketId }: { socketId: string }) => {
+      console.log(`User ${socketId} joined the room`);
+    };
+
     const onHello = (arg: string) => {
       console.log("Recived this from server", arg);
       setMessage(arg);
@@ -79,12 +82,14 @@ const useSocket = () => {
     socket.on("hello", onHello);
     socket.on("message", onMessage);
     socket.on("lobbyCreation", onLobbyCreation);
+    socket.on("userJoined", onLobbyJoin);
 
     return () => {
       socket.off("connect", onConnect);
       socket.off("hello", onHello);
       socket.off("message", onMessage);
       socket.off("lobbyCreation", onLobbyCreation);
+      socket.off("userJoined", onLobbyJoin);
     };
   }, [queryClient]);
 
