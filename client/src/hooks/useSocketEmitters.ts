@@ -1,10 +1,6 @@
 import { socket } from "../socket/socket";
 
 export const useSocketEmitters = () => {
-  const sayHelloToServer = () => {
-    socket.emit("hello", "Hello from client");
-  };
-
   const sendMessageToServer = (userMessage: string) => {
     socket.emit("message", userMessage);
   };
@@ -32,7 +28,6 @@ export const useSocketEmitters = () => {
     });
   };
   return {
-    sayHelloToServer,
     sendMessageToServer,
     createLobby,
   };

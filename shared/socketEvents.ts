@@ -1,12 +1,10 @@
 export interface ServerToClientEvents {
-  hello: (message: string) => void;
   message: (message: string) => void;
   lobbyCreation: (payload: FilledLobbyData) => void;
   userJoined: (data: { socketId: string }) => void;
 }
 
 export interface ClientToServerEvents {
-  hello: (message: string) => void;
   message: (message: string) => void;
   lobbyCreation: (
     payload: LobbyData,

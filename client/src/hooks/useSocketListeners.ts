@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { registerSocketListeners } from "../socket/clientHandlers";
 import { socket } from "../socket/socket";
 export const useSocketListeners = (
-  setIsConnected: (value: boolean) => void,
-  setMessage: (msg: String) => void
+  setIsConnected: React.Dispatch<React.SetStateAction<boolean>>,
+  setMessage: React.Dispatch<React.SetStateAction<string>>
 ) => {
   const queryClient = useQueryClient();
 

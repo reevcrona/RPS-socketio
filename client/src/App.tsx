@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
-import { useSocket } from "./hooks/useSocket";
+import { socket } from "./socket/socket";
+import { useSocketListeners } from "./hooks/useSocketListeners";
 import { FaCircle } from "react-icons/fa";
 import MessageList from "./components/MessageList";
 import LobbyContainer from "./components/Lobby/LobbyContainer";
@@ -9,18 +10,19 @@ import LobbyOptions from "./components/Lobby/LobbyOptions";
 import LobbyList from "./components/Lobby/LobbyList";
 import { useSocketEmitters } from "./hooks/useSocketEmitters";
 function App() {
-  const { isConnected, message } = useSocket();
-  const { sayHelloToServer, sendMessageToServer } = useSocketEmitters();
-  const [inputValue, setInputValue] = useState<string>("");
+  const { sendMessageToServer } = useSocketEmitters();
 
+  const [inputValue, setInputValue] = useState<string>("");
+  const [isConnected, setIsConected] = useState(socket.connected);
+  const [message, setMessage] = useState<string>("");
   const [showLightbox, setShowLightbox] = useState<boolean>(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
-
+  useSocketListeners(setIsConected, setMessage);
   return (
     <div className="flex flex-col  items-center w-full">
-      <div onClick={sayHelloToServer} className="flex items-center mb-7">
+      <div className="flex items-center mb-7">
         <FaCircle
           className={`mr-6 text-5xl ${
             isConnected ? "text-green-500" : "text-red-500"
