@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { CiGlobe, CiLock } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import { useSocket } from "../../hooks/useSocket";
+import { useSocketEmitters } from "../../hooks/useSocketEmitters";
 
 type LobbyOptionsProps = {
   setShowLightbox: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 function LobbyOptions({ setShowLightbox }: LobbyOptionsProps) {
-  const { createLobby } = useSocket();
+  const { createLobby } = useSocketEmitters();
 
   const [lobbyData, setLobbyData] = useState({
     name: "",

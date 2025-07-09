@@ -7,10 +7,10 @@ import LobbyContainer from "./components/Lobby/LobbyContainer";
 import LightBox from "./components/Lightbox";
 import LobbyOptions from "./components/Lobby/LobbyOptions";
 import LobbyList from "./components/Lobby/LobbyList";
+import { useSocketEmitters } from "./hooks/useSocketEmitters";
 function App() {
-  const { isConnected, message, sayHelloToServer, sendMessageToServer } =
-    useSocket();
-
+  const { isConnected, message } = useSocket();
+  const { sayHelloToServer, sendMessageToServer } = useSocketEmitters();
   const [inputValue, setInputValue] = useState<string>("");
 
   const [showLightbox, setShowLightbox] = useState<boolean>(false);

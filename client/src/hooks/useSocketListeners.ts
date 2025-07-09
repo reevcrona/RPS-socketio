@@ -1,27 +1,20 @@
-import { socket } from "../socket/socket";
-import { useState, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { registerSocketListeners } from "../socket/clientHandlers";
-
-const useSocket = () => {
+import { socket } from "../socket/socket";
+export const useSocketListeners = (
+  setIsConnected: (value: boolean) => void,
+  setMessage: (msg: String) => void
+) => {
   const queryClient = useQueryClient();
-  const [isConnected, setIsConected] = useState(socket.connected);
-  const [message, setMessage] = useState<string>("");
 
   useEffect(() => {
     const cleanup = registerSocketListeners(
       socket,
       queryClient,
       setMessage,
-      setIsConected
+      setIsConnected
     );
     return cleanup;
   }, [queryClient]);
-
-  return {
-    isConnected,
-    message,
-  };
 };
-
-export { useSocket };
