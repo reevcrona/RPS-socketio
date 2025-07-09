@@ -3,7 +3,9 @@ import { LobbyData } from "@shared/socketEvents";
 import { lobbies } from "../../drizzle/schema";
 import { db } from "../../drizzle/db";
 import { lobbyExists } from "../utils/checkLobbyExists";
-const lobbyHandler = (io: Server, socket: Socket) => {
+import { getUsersInRoom } from "../utils/getUsersInRoom";
+import { TypedSocket, TypedServer } from "../types/socketTypes";
+const lobbyHandler = (io: TypedServer, socket: TypedSocket) => {
   const createLobby = async (payload: LobbyData) => {
     try {
       const newLobby = await db
@@ -45,7 +47,8 @@ const lobbyHandler = (io: Server, socket: Socket) => {
       }
       io.emit("lobbyCreation", newLobby);
       socket.join(newLobby.id);
-      io.to(newLobby.id).emit("userJoined", { socketId: socket.id });
+      const users = await getUsersInRoom(newLobby.id, io);
+      io.to(newLobby.id).emit("userJoined", users);
       return respond(callback, { status: "ok" });
     } catch (error) {
       console.error("Error emitting new lobby event", error);
@@ -70,10 +73,9 @@ const lobbyHandler = (io: Server, socket: Socket) => {
         });
       }
       socket.join(lobbyId);
-      io.to(lobbyId).emit("userJoined", {
-        socketId: socket.id,
-        userName: socket.data.name,
-      });
+      socket.data.lobbyId = lobbyId;
+      const users = await getUsersInRoom(lobbyId, io);
+      io.to(lobbyId).emit("userJoined", users);
       return respond(callback, { status: "ok" });
     } catch (error) {
       console.error("Error joining lobby.", error);
@@ -86,6 +88,13 @@ const lobbyHandler = (io: Server, socket: Socket) => {
 
   socket.on("joinLobby", joinLobby);
   socket.on("lobbyCreation", emitLobby);
+  socket.on("disconnect", async () => {
+    const lobbyId = socket.data.lobbyId;
+    if (lobbyId) {
+      const users = await getUsersInRoom(lobbyId, io);
+      io.to(lobbyId).emit("userJoined", users);
+    }
+  });
 };
 
 export { lobbyHandler };

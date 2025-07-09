@@ -9,7 +9,6 @@ import {
   InterServerEvents,
   ServerToClientEvents,
 } from "@shared/socketEvents";
-
 import { db, checkDbConnection } from "../drizzle/db";
 import { users } from "../drizzle/schema";
 import { messageHandler } from "./eventHandlers/messageHandlers";

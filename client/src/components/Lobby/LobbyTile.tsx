@@ -5,12 +5,14 @@ type LobbyTileProps = {
   status: "Active" | "Full";
 };
 import { useSocketEmitters } from "../../hooks/useSocketEmitters";
+import { useNavigate } from "react-router-dom";
 function LobbyTile({ name, playerInLobby, status, id }: LobbyTileProps) {
   const { joinLobby } = useSocketEmitters();
-
+  const navigate = useNavigate();
   const handleJoinLobby = async () => {
     try {
       await joinLobby(id);
+      navigate(`/lobby/${id}`);
     } catch (error) {
       console.error("Failed to join lobby", error);
     }

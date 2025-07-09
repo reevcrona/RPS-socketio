@@ -18,7 +18,7 @@ export const users = pgTable("users", {
 export const messages = pgTable("messages", {
   id: uuid("id").defaultRandom().primaryKey(),
   content: text("content").notNull(),
-  createAt: timestamp("created_at").defaultNow().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const lobbies = pgTable("lobbies", {
@@ -27,5 +27,5 @@ export const lobbies = pgTable("lobbies", {
   playersInLobby: integer("players_in_lobby").default(0),
   isPrivate: boolean().notNull(),
   password: text("password"),
-  createAt: timestamp("created_at").defaultNow().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });

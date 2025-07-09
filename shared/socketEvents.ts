@@ -1,7 +1,7 @@
 export interface ServerToClientEvents {
   message: (message: string) => void;
   lobbyCreation: (payload: FilledLobbyData) => void;
-  userJoined: (data: { socketId: string }) => void;
+  userJoined: (users: { id: string; username: string }[]) => void;
 }
 
 export interface ClientToServerEvents {
@@ -27,6 +27,7 @@ export interface InterServerEvents {
 export interface SocketData {
   name: string;
   age: number;
+  lobbyId: string;
 }
 
 export interface LobbyData {
@@ -38,8 +39,8 @@ export interface LobbyData {
 export interface FilledLobbyData {
   id: string;
   name: string;
-  createdAt: string;
+  createdAt: Date;
   isPrivate: boolean;
-  password: string;
-  playersInLobby: number;
+  password: string | null;
+  playersInLobby: number | null;
 }
