@@ -9,14 +9,23 @@ import LightBox from "./components/Lightbox";
 import LobbyOptions from "./components/Lobby/LobbyOptions";
 import LobbyList from "./components/Lobby/LobbyList";
 import { useSocketEmitters } from "./hooks/useSocketEmitters";
+import UserNameComponent from "./components/UserNameComponent";
 function App() {
   const { sendMessageToServer } = useSocketEmitters();
+
+  const [userName, setUserName] = useState<string>("");
 
   const [inputValue, setInputValue] = useState<string>("");
   const [isConnected, setIsConected] = useState(socket.connected);
   const [showLightbox, setShowLightbox] = useState<boolean>(false);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+  const [showUsernameLightbox, setShowUsernameLightbox] =
+    useState<boolean>(true);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setterFunc: React.Dispatch<React.SetStateAction<string>>
+  ) => {
+    setterFunc(e.target.value);
   };
   useSocketListeners(setIsConected);
   return (
@@ -41,7 +50,7 @@ function App() {
         placeholder="text here"
         type="text"
         value={inputValue}
-        onChange={(e) => handleChange(e)}
+        onChange={(e) => handleChange(e, setInputValue)}
       />
       <button
         onClick={() => sendMessageToServer(inputValue)}
@@ -54,9 +63,22 @@ function App() {
         <MessageList />
       </div>
 
+      {userName && <h2>User: {userName}</h2>}
+
       <LobbyContainer setShowLightbox={setShowLightbox}>
         <LobbyList />
       </LobbyContainer>
+
+      {showUsernameLightbox && (
+        <LightBox>
+          <UserNameComponent
+            handleChange={handleChange}
+            setShowUsernameLightbox={setShowUsernameLightbox}
+            setUserName={setUserName}
+            userName={userName}
+          />
+        </LightBox>
+      )}
 
       {showLightbox && (
         <LightBox>
